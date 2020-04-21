@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1066627759761",
+    "firebase_url": "https://chattering-a8c97.firebaseio.com",
+    "project_id": "chattering-a8c97",
+    "storage_bucket": "chattering-a8c97.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066627759761:android:818ed20225d431fc77c930",
+        "android_client_info": {
+          "package_name": "com.cclss.chattering"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066627759761-2uc0r0efpnd57l825ripuvb5grhm435a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ75hCw-uBNQL5D0w8Vg0ePhRCYlkHgAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066627759761-2uc0r0efpnd57l825ripuvb5grhm435a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066627759761-ge64tea9dqhdk4lv6h3la3tlciv92mnm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "net.cclss.Chattering"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

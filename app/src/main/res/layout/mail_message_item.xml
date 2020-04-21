@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/itemMailImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/ic_launcher_background">
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|left"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/itemMailTitle"
+            android:layout_width="wrap_content"
+            tools:text="타이틀"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <TextView
+            android:id="@+id/itemMailContent"
+            tools:text="내용"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="15sp"
+            android:layout_marginTop="1dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+    </LinearLayout>
+
+
+</LinearLayout>
