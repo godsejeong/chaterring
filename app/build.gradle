@@ -16,6 +16,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -57,4 +58,8 @@ dependencies {
 
     //noinspection GradleCompatible
     implementation 'com.android.support:design:26.1.0'
+
+    //facebook
+    implementation 'com.google.android.gms:play-services-auth:11.6.2'
+    implementation 'com.facebook.android:facebook-login:[4,5)'
 }

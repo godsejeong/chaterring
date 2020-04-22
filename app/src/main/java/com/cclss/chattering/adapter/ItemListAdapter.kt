@@ -4,7 +4,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -49,7 +48,6 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val context = holder.itemView.context
         when (getItemViewType(position)) {
@@ -64,9 +62,17 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                 holder.name.text = item.name
 
                 if (item.isSubscription)
-                    holder.image.borderColor = context.getColor(R.color.colorSeleteMember)
+                    holder.image.borderColor = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                        context.resources.getColor(R.color.colorSeleteMember)
+                    }else{
+                        context.getColor(R.color.colorSeleteMember)
+                    }
                 else
-                    holder.image.borderColor = context.getColor(R.color.transparent)
+                    holder.image.borderColor = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                        context.resources.getColor(R.color.transparent)
+                    }else{
+                        context.getColor(R.color.transparent)
+                    }
             }
 
             MAIL -> {
@@ -80,7 +86,6 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
 
                 holder.title.text = item.title
                 holder.content.text = item.content
-                holder.image.borderColor = context.getColor(R.color.transparent)
 
                 if (itemClick != null) {
                     holder.itemView.setOnClickListener {

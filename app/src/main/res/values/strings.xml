@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ChatTering</string>
+    <string name="facebook_app_id">226942675041484</string>
+    <string name="fb_login_protocol_scheme">fb226942675041484</string>
 </resources>

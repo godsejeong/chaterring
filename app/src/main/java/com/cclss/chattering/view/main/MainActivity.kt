@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cclss.chattering.LoginActivity
 import com.cclss.chattering.R
 import com.cclss.chattering.Utils.memberSearch
 import com.cclss.chattering.adapter.ItemListAdapter
@@ -15,6 +16,8 @@ import com.cclss.chattering.data.ItemDataInterface
 import com.cclss.chattering.data.ItemMail
 import com.cclss.chattering.data.ItemMember
 import com.cclss.chattering.data.source.mail.MailDataRepository
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.messaging.FirebaseMessaging
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             add(ItemMember("조유리", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-jo-yuri.jpg", true))
             add(ItemMember("최예나", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-choi-yena.jpg"))
             add(ItemMember("안유진", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-an-yujin.jpg"))
-            add(ItemMember("나코", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-yabuki-nako.jpg"))
+            add(ItemMember("나코","http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-yabuki-nako.jpg"))
             add(ItemMember("권은비", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-kwon-eunbi.jpg"))
             add(ItemMember("강혜원", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-kang-hyewon.jpg"))
             add(ItemMember("히토미", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-honda-hitomi.jpg"))
@@ -47,6 +50,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        FacebookSdk.sdkInitialize(applicationContext);
+        AppEventsLogger.activateApp(this);
+
         Realm.init(this)
         realm = Realm.getDefaultInstance()
         FirebaseMessaging.getInstance().subscribeToTopic("all")
@@ -77,6 +84,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             toastMessage("deleteItem")
             return@setOnLongClickListener true
         }
+
+        mainFab.setOnClickListener {
+            startActivity(Intent(this,LoginActivity::class.java))
+        }
+
     }
 
     fun fcmReceiver() {

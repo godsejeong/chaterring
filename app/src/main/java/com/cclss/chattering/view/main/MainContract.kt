@@ -23,6 +23,5 @@ interface MainContract {
         fun loadMail(realm: Realm)
         fun updateMail(itemMail : ItemMail)
         fun deleteMail(realm: Realm)
-        
     }
 }
