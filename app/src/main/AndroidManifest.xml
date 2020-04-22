@@ -14,13 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MailDetailActivity">
+        <activity android:name=".view.MailDetailActivity">
             <intent-filter>
                 <action android:name=".OPEN_ACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity">
+        <activity android:name="com.cclss.chattering.view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

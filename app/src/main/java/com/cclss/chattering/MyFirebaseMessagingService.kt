@@ -13,7 +13,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.cclss.chattering.Utils.memberSearch
 import com.cclss.chattering.data.MailData
-import com.cclss.chattering.main.MainActivity
+import com.cclss.chattering.view.MailDetailActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import io.realm.Realm

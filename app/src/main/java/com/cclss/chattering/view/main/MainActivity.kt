@@ -1,30 +1,22 @@
-package com.cclss.chattering.main
+package com.cclss.chattering.view.main
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.ListAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.cclss.chattering.MailDetailActivity
 import com.cclss.chattering.R
 import com.cclss.chattering.Utils.memberSearch
 import com.cclss.chattering.adapter.ItemListAdapter
 import com.cclss.chattering.data.ItemDataInterface
 import com.cclss.chattering.data.ItemMail
 import com.cclss.chattering.data.ItemMember
-import com.cclss.chattering.data.MailData
 import com.cclss.chattering.data.source.mail.MailDataRepository
 import com.google.firebase.messaging.FirebaseMessaging
 import io.realm.Realm
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -52,22 +44,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private lateinit var presenter: MainPresenter
 
-    override fun onResume() {
-        super.onResume()
-        fcmReceiver()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        unregisterReceiver()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Realm.init(this)
         realm = Realm.getDefaultInstance()
         FirebaseMessaging.getInstance().subscribeToTopic("all")
+        fcmReceiver()
 
         var layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -121,6 +104,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             this.unregisterReceiver(mReceiver)
             mReceiver = null
         }
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver()
+        super.onDestroy()
     }
 
     override fun toastMessage(text : String) {
