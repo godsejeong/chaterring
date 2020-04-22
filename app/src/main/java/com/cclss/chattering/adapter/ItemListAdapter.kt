@@ -1,22 +1,14 @@
 package com.cclss.chattering.adapter
 
-
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.cclss.chattering.R
 import com.cclss.chattering.data.BaseViewHolder
 import com.cclss.chattering.data.ItemDataInterface
@@ -24,7 +16,6 @@ import com.cclss.chattering.data.ItemDataState.MAIL
 import com.cclss.chattering.data.ItemDataState.MEMBER
 import com.cclss.chattering.data.ItemMail
 import com.cclss.chattering.data.ItemMember
-
 
 class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(itemCallback) {
 
@@ -38,9 +29,10 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
         itemClick = listener
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
         return when (viewType) {
+
             MEMBER -> {
                 var layout = LayoutInflater.from(parent.context)
                     .inflate(R.layout.member_item, parent, false)
@@ -66,7 +58,6 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                 var holder = (holder as BaseViewHolder.MemberViewHolder)
                 Glide.with(context)
                     .load(item.img)
-                    .listener(createLoggerListener("original"))
                     .override(150, 150)
                     .into(holder.image)
 
@@ -84,7 +75,6 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
 
                 Glide.with(context)
                     .load(item.profile)
-                    .listener(createLoggerListener("original"))
                     .override(200, 200)
                     .into(holder.image)
 
@@ -126,42 +116,6 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                 newItemData: ItemDataInterface
             ): Boolean {
                 return oldItemData == newItemData
-            }
-        }
-    }
-
-    private fun createLoggerListener(name: String): RequestListener<Drawable> {
-        return object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                return false
-            }
-
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                if (resource is BitmapDrawable) {
-                    val bitmap = resource.bitmap
-                    Log.d(
-                        "GlideApp",
-                        String.format(
-                            "Ready %s bitmap %,d bytes, size: %d x %d",
-                            name,
-                            bitmap.byteCount,
-                            bitmap.width,
-                            bitmap.height
-                        )
-                    )
-                }
-                return false
             }
         }
     }

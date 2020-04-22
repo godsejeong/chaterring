@@ -12,7 +12,7 @@ import com.cclss.chattering.data.source.mail.MailSource
 import com.cclss.chattering.view.MailDetailActivity
 import io.realm.Realm
 
-class MainPresenter() : MainContract.Presenter {
+class MainPresenter : MainContract.Presenter {
     override lateinit var view: MainContract.View
     override lateinit var listAdapter: ItemListAdapter
     override lateinit var mailRecyclerView: RecyclerView

@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
 
         presenter.loadMember(memberItem)
-
         presenter.loadMail(realm)
 
         mainFab.setOnLongClickListener {
