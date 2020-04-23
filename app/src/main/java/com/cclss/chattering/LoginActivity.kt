@@ -18,7 +18,6 @@ import com.google.firebase.auth.*
 import com.twitter.sdk.android.core.*
 import com.twitter.sdk.android.core.identity.TwitterAuthClient
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlin.Result
 
 
 class LoginActivity : AppCompatActivity() {
@@ -129,7 +128,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun handleTwitterSession(session: TwitterSession) {
         Log.d("MainActivity", "handleTwitterSession:$session")

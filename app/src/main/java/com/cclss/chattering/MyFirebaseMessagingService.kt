@@ -21,6 +21,8 @@ import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -80,7 +82,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent.putExtra("profile", memberSearch(memberType))
         intent.putExtra("name", memberType)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val id: Int = createID()
+        val pendingIntent = PendingIntent.getActivity(this,id, intent, PendingIntent.FLAG_ONE_SHOT)
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
@@ -115,6 +118,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
         notificationManager.notify(20010906, notification)
+    }
+
+    fun createID(): Int {
+        val now = Date()
+        return SimpleDateFormat("ddHHmmss", Locale.KOREA).format(now).toInt()
     }
 
     fun getBitmapFromURL(src: String?): Bitmap? {
