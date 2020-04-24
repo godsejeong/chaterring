@@ -42,18 +42,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         var image = remoteMessage.data.get("image")
         var memberType = remoteMessage.data.get("memberType")
         var time = getRealTime()
-        sendNotification(title, body, image, memberType,time)
-        saveRealm(title, body, image, memberType,time)
+        var id = createID()
+        sendNotification(title, body, image, memberType,time,id)
+        saveRealm(title, body, image, memberType,time,id)
     }
 
-    private fun saveRealm(title: String?, content: String?, img: String?, memberType: String?,time : String?) {
+    private fun saveRealm(title: String?, content: String?, img: String?, memberType: String?,time : String?,id : Int?) {
         var realm = Realm.getDefaultInstance()
-        var id = createID()
 
         realm.executeTransactionAsync { realm ->
             var maildata = realm.createObject(MailData::class.java)
             maildata.apply {
-                this.id = id
+                this.id = id!!
                 this.title = title!!
                 this.content = content!!
                 this.img = img!!
@@ -79,7 +79,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         messageBody: String?,
         image: String?,
         memberType: String?,
-        time : String?
+        time : String?,
+        id : Int?
     ) {
         val allTime = time!!.substring(0,time.lastIndexOf("/"))
 
@@ -90,6 +91,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent.putExtra("profile", memberSearch(memberType))
         intent.putExtra("name", memberType)
         intent.putExtra("time",allTime)
+        intent.putExtra("id",id)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val id: Int = createID()
         val pendingIntent = PendingIntent.getActivity(this,id, intent, PendingIntent.FLAG_ONE_SHOT)
