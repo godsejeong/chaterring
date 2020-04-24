@@ -1,4 +1,4 @@
-package com.cclss.chattering
+package com.cclss.chattering.util
 
 object Utils {
     fun memberSearch(num: String?): String {
@@ -15,7 +15,7 @@ object Utils {
             "김채원" -> "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-kim-chaewon.jpg"
             "김민주" -> "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-kim-minju.jpg"
             "이채연" -> "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-lee-chaeyeon.jpg"
-            else -> null!!
+            else -> ""
         }
     }
 }

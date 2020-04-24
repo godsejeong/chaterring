@@ -11,17 +11,19 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.cclss.chattering.Utils.memberSearch
 import com.cclss.chattering.data.MailData
+import com.cclss.chattering.util.Utils.memberSearch
 import com.cclss.chattering.view.MailDetailActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import io.realm.Realm
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -39,48 +41,55 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         var body = remoteMessage.data.get("body")
         var image = remoteMessage.data.get("image")
         var memberType = remoteMessage.data.get("memberType")
-        sendNotification(title, body, image, memberType)
-
-        saveRealm(title, body, image, memberType)
-
-        val intent = Intent(BROADCAST_MESSAGE)
-        intent.putExtra("title", title)
-        intent.putExtra("body", body)
-        intent.putExtra("image", image)
-        intent.putExtra("memberType", memberType)
-        sendBroadcast(intent)
+        var time = getRealTime()
+        sendNotification(title, body, image, memberType,time)
+        saveRealm(title, body, image, memberType,time)
     }
 
-    private fun saveRealm(title: String?, content: String?, img: String?, memberType: String?) {
+    private fun saveRealm(title: String?, content: String?, img: String?, memberType: String?,time : String?) {
         var realm = Realm.getDefaultInstance()
+        var id = createID()
 
         realm.executeTransactionAsync { realm ->
-            var mail = realm.createObject(MailData::class.java)
-
-            mail.apply {
+            var maildata = realm.createObject(MailData::class.java)
+            maildata.apply {
+                this.id = id
                 this.title = title!!
                 this.content = content!!
                 this.img = img!!
                 this.memberType = memberType!!
+                this.time = time!!
             }
-            realm.copyToRealm(mail)
+            realm.copyToRealm(maildata)
             realm.commitTransaction()
         }
 
+        val intent = Intent(BROADCAST_MESSAGE)
+        intent.putExtra("title", title)
+        intent.putExtra("body", content)
+        intent.putExtra("image", img)
+        intent.putExtra("memberType", memberType)
+        intent.putExtra("time",time)
+        intent.putExtra("id",id)
+        sendBroadcast(intent)
     }
 
     private fun sendNotification(
         title: String?,
         messageBody: String?,
         image: String?,
-        memberType: String?
+        memberType: String?,
+        time : String?
     ) {
+        val allTime = time!!.substring(0,time.lastIndexOf("/"))
+
         val intent = Intent(this, MailDetailActivity::class.java)
         intent.putExtra("title", title)
         intent.putExtra("content", messageBody)
         intent.putExtra("img", image)
         intent.putExtra("profile", memberSearch(memberType))
         intent.putExtra("name", memberType)
+        intent.putExtra("time",allTime)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val id: Int = createID()
         val pendingIntent = PendingIntent.getActivity(this,id, intent, PendingIntent.FLAG_ONE_SHOT)
@@ -121,8 +130,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     fun createID(): Int {
-        val now = Date()
-        return SimpleDateFormat("ddHHmmss", Locale.KOREA).format(now).toInt()
+        val dateTime = DateTime()
+        val formatter: DateTimeFormatter = DateTimeFormat.forPattern("MMddHHmmss")
+        return formatter.print(dateTime).toInt()
+    }
+
+    fun getRealTime(): String {
+        val dateTime = DateTime()
+        var allTime = dateTime.toString("yyyy년 MM월 dd일 (E) a HH:mm/MM.dd",Locale.KOREA)
+        return allTime
     }
 
     fun getBitmapFromURL(src: String?): Bitmap? {

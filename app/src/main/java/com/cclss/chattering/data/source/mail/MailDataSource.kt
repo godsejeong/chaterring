@@ -1,7 +1,7 @@
 package com.cclss.chattering.data.source.mail
 
 import androidx.lifecycle.MutableLiveData
-import com.cclss.chattering.Utils
+import com.cclss.chattering.util.Utils
 import com.cclss.chattering.data.ItemDataInterface
 import com.cclss.chattering.data.ItemMail
 import com.cclss.chattering.data.MailData
@@ -17,8 +17,10 @@ class MailDataSource : MailSource {
 
         allData.forEach {
             var profile = Utils.memberSearch(it.memberType)
-            mailItem.value?.add(ItemMail(profile, it.memberType, it.title, it.content, it.img))
+            mailItem.value?.add(ItemMail(it.id,profile, it.memberType, it.title, it.content, it.img,it.time,it.isCheck))
         }
+
+
 
         loadMailCallback.onLoadMails(mailItem.value!!)
     }
@@ -39,4 +41,6 @@ class MailDataSource : MailSource {
         mailItem.value!!.add(itemMail)
         updateMailCallback.onUpdateMail(mailItem.value!!)
     }
+
+
 }

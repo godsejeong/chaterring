@@ -1,15 +1,17 @@
 package com.cclss.chattering.view.main
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.cclss.chattering.Utils
+import com.cclss.chattering.util.Utils
 import com.cclss.chattering.adapter.ItemListAdapter
 import com.cclss.chattering.data.ItemDataInterface
 import com.cclss.chattering.data.ItemMail
 import com.cclss.chattering.data.source.mail.MailDataRepository
 import com.cclss.chattering.data.source.mail.MailSource
 import com.cclss.chattering.view.MailDetailActivity
+import com.google.gson.Gson
 import io.realm.Realm
 
 class MainPresenter : MainContract.Presenter {
@@ -60,12 +62,15 @@ class MainPresenter : MainContract.Presenter {
                         view.context,
                         MailDetailActivity::class.java
                     )
+                    val allTime = item.time!!.substring(0, item.time!!.lastIndexOf("/"))
 
                     intent.putExtra("title", item.title)
                     intent.putExtra("content", item.content)
                     intent.putExtra("img", item.img)
                     intent.putExtra("profile", Utils.memberSearch(item.name))
                     intent.putExtra("name", item.name)
+                    intent.putExtra("id",item.id)
+                    intent.putExtra("time",allTime)
                     view.context.startActivity(intent)
                 }
             })

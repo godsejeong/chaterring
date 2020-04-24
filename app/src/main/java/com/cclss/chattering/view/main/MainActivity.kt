@@ -4,18 +4,21 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.TypedArray
+import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cclss.chattering.LoginActivity
 import com.cclss.chattering.R
-import com.cclss.chattering.Utils.memberSearch
+
 import com.cclss.chattering.adapter.ItemListAdapter
-import com.cclss.chattering.data.ItemDataInterface
-import com.cclss.chattering.data.ItemMail
-import com.cclss.chattering.data.ItemMember
+import com.cclss.chattering.data.*
 import com.cclss.chattering.data.source.mail.MailDataRepository
+import com.cclss.chattering.util.Utils.memberSearch
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.messaging.FirebaseMessaging
@@ -47,6 +50,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private lateinit var presenter: MainPresenter
 
+    override fun onResume() {
+        super.onResume()
+        presenter.loadMail(realm)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -67,6 +75,19 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         layoutManager_.reverseLayout = true
         layoutManager_.stackFromEnd = true
         mailRy.layoutManager = layoutManager_
+
+        val ATTRS: IntArray = intArrayOf(android.R.attr.listDivider)
+
+        val a: TypedArray = this.obtainStyledAttributes(ATTRS)
+        val divider = a.getDrawable(0)
+        val inset = resources.getDimensionPixelSize(R.dimen.recyclerview_padding)
+        val insetDivider = InsetDrawable(divider, inset, 0, inset, 0)
+        a.recycle()
+
+        val itemDecoration =
+            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        itemDecoration.setDrawable(insetDivider)
+        mailRy.addItemDecoration(itemDecoration)
 
         presenter = MainPresenter().apply {
             view = this@MainActivity
@@ -101,8 +122,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 var body = intent.getStringExtra("body")
                 var image = intent.getStringExtra("image")
                 var memberType = intent.getStringExtra("memberType")
+                var time = intent.getStringExtra("time")
+                var id = intent.getIntExtra("id",0)
                 if (intent.action == BROADCAST_MESSAGE) {
-                    var item = ItemMail(memberSearch(memberType),memberType,title, body, image)
+                    var item = ItemMail(id,memberSearch(memberType),memberType,title, body, image,time,false)
                     presenter.updateMail(item)
                 }
             }

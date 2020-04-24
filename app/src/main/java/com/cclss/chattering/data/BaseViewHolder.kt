@@ -17,5 +17,8 @@ object BaseViewHolder {
         var image = view.findViewById(R.id.itemMailImg) as CircleImageView
         var title = view.findViewById(R.id.itemMailTitle) as TextView
         var content = view.findViewById(R.id.itemMailContent) as TextView
+        var name = view.findViewById(R.id.itemMailName) as TextView
+        var time = view.findViewById(R.id.itemMailTime) as TextView
+        var checkImg = view.findViewById(R.id.itemMailCheckImg) as ImageView
     }
 }

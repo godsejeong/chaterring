@@ -1,6 +1,7 @@
 package com.cclss.chattering.adapter
 
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.cclss.chattering.data.ItemDataState.MAIL
 import com.cclss.chattering.data.ItemDataState.MEMBER
 import com.cclss.chattering.data.ItemMail
 import com.cclss.chattering.data.ItemMember
+import org.joda.time.DateTime
+import java.util.*
 
 class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(itemCallback) {
 
@@ -64,13 +67,13 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                 if (item.isSubscription)
                     holder.image.borderColor = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
                         context.resources.getColor(R.color.colorSeleteMember)
-                    }else{
+                    } else {
                         context.getColor(R.color.colorSeleteMember)
                     }
                 else
                     holder.image.borderColor = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
                         context.resources.getColor(R.color.transparent)
-                    }else{
+                    } else {
                         context.getColor(R.color.transparent)
                     }
             }
@@ -81,11 +84,27 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
 
                 Glide.with(context)
                     .load(item.profile)
-                    .override(200, 200)
+                    .override(120, 120)
                     .into(holder.image)
 
                 holder.title.text = item.title
                 holder.content.text = item.content
+                holder.name.text = item.name
+
+                var time = item.time
+                val day : String = time!!.substring(time.lastIndexOf("/") + 1)
+                val onlyTime : String = time.substring(time.lastIndexOf(")")+1,time.lastIndexOf("/")).trim()
+
+                holder.time.text =
+                    if (day == getRealDay())
+                        onlyTime
+                    else
+                        day
+
+                if (item.isCheck)
+                    holder.checkImg.visibility = View.GONE
+                else
+                    holder.checkImg.visibility = View.VISIBLE
 
                 if (itemClick != null) {
                     holder.itemView.setOnClickListener {
@@ -106,6 +125,10 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
         return getItem(position).getItem()
     }
 
+    fun getRealDay(): String {
+        val dateTime = DateTime()
+        return dateTime.toString("MM.dd", Locale.KOREA)
+    }
 
     companion object {
         val itemCallback = object : DiffUtil.ItemCallback<ItemDataInterface>() {
