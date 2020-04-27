@@ -152,7 +152,7 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                 if (itemClick != null) {
                     holder.itemView.setOnClickListener {
                         if (position != RecyclerView.NO_POSITION) {
-                            itemClick!!.onClick(it, position,GALLERY)
+                            itemClick!!.onClick(it,position,GALLERY)
                         }
                     }
                 }

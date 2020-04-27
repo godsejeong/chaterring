@@ -33,7 +33,7 @@ class GalleryPresenter : GalleryContract.Presenter{
             this.submitList(items)
 
             setOnItemClickListener(object : ItemListAdapter.ItemClick {
-                override fun onClick(view: View, position: Int) {
+                override fun onClick(view: View, position: Int, viewType: Int) {
                     var item = items[position] as ItemGallery
                     var intent = Intent(view.context,GalleryDetailActivity::class.java)
                     intent.putExtra("member",item.title)
