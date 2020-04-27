@@ -24,7 +24,7 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
     private var itemClick: ItemClick? = null
 
     interface ItemClick {
-        fun onClick(view: View, position: Int)
+        fun onClick(view: View, position: Int,viewType: Int)
     }
 
     fun setOnItemClickListener(listener: ItemClick?) {
@@ -88,6 +88,14 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                     } else {
                         context.getColor(R.color.transparent)
                     }
+
+                if (itemClick != null) {
+                    holder.itemView.setOnClickListener {
+                        if (position != RecyclerView.NO_POSITION) {
+                            itemClick!!.onClick(it, position,MEMBER)
+                        }
+                    }
+                }
             }
 
             MAIL -> {
@@ -121,7 +129,7 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                 if (itemClick != null) {
                     holder.itemView.setOnClickListener {
                         if (position != RecyclerView.NO_POSITION) {
-                            itemClick!!.onClick(it, position)
+                            itemClick!!.onClick(it, position,MAIL)
                         }
                     }
                 }
@@ -144,7 +152,7 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                 if (itemClick != null) {
                     holder.itemView.setOnClickListener {
                         if (position != RecyclerView.NO_POSITION) {
-                            itemClick!!.onClick(it, position)
+                            itemClick!!.onClick(it, position,GALLERY)
                         }
                     }
                 }

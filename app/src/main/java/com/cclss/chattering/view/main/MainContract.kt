@@ -18,10 +18,11 @@ interface MainContract {
         var mailRecyclerView : RecyclerView
         var memberRecyclerView : RecyclerView
         var mailData : MailDataRepository
+        var realm : Realm
 
         fun loadMember(item : ArrayList<ItemDataInterface>)
-        fun loadMail(realm: Realm)
+        fun loadMail(member : String)
         fun updateMail(itemMail : ItemMail)
-        fun deleteMail(realm: Realm)
+        fun deleteMail()
     }
 }

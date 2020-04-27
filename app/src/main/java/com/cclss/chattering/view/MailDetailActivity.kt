@@ -1,13 +1,14 @@
 package com.cclss.chattering.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.cclss.chattering.R
 import com.cclss.chattering.data.MailData
+import com.cclss.chattering.view.main.MainActivity
 import io.realm.Realm
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_mail_detail.*
 
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Rect
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 
 class RecyclerViewDecoration(context : Context,@DimenRes divWidth : Int,@DimenRes divHeight : Int) : RecyclerView.ItemDecoration() {

@@ -18,7 +18,7 @@ interface MailSource {
         fun onUpdateMail(item : ArrayList<ItemDataInterface>)
     }
 
-    fun getMails(realm : Realm,loadMailCallback: LoadMailCallback)
+    fun getMails(realm : Realm,member : String,loadMailCallback: LoadMailCallback)
     fun deleteMail(realm: Realm,deleteMailCallback: DeleteMailCallback)
     fun updateMail(itemMail : ItemMail,updateMailCallback: UpdateMailCallback)
 }

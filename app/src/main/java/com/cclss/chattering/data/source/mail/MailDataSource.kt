@@ -11,16 +11,38 @@ import io.realm.RealmResults
 class MailDataSource : MailSource {
     private val mailItem = MutableLiveData<ArrayList<ItemDataInterface>>()
 
-    override fun getMails(realm : Realm,loadMailCallback: MailSource.LoadMailCallback) {
+    override fun getMails(
+        realm: Realm,
+        member: String,
+        loadMailCallback: MailSource.LoadMailCallback
+    ) {
         mailItem.value = arrayListOf()
         val allData = realm.where(MailData::class.java).findAll()
 
-        allData.forEach {
-            var profile = Utils.memberSearch(it.memberType)
-            mailItem.value?.add(ItemMail(it.id,profile, it.memberType, it.title, it.content, it.img,it.time,it.isCheck))
+        if(member == "IZONE") {
+            allData.forEach {
+                var profile = Utils.memberSearch(it.memberType)
+                mailItem.value?.add(
+                    ItemMail(
+                        it.id,
+                        profile,
+                        it.memberType,
+                        it.title,
+                        it.content,
+                        it.img,
+                        it.time,
+                        it.isCheck
+                    )
+                )
+            }
+        }else{
+            val result : RealmResults<MailData> =
+                realm.where(MailData::class.java).equalTo("memberType",member).findAll()
+            result.forEach {
+                var profile = Utils.memberSearch(it.memberType)
+                mailItem.value!!.add(ItemMail(it.id,profile, it.memberType, it.title, it.content, it.img,it.time,it.isCheck))
+            }
         }
-
-
 
         loadMailCallback.onLoadMails(mailItem.value!!)
     }
@@ -41,6 +63,4 @@ class MailDataSource : MailSource {
         mailItem.value!!.add(itemMail)
         updateMailCallback.onUpdateMail(mailItem.value!!)
     }
-
-
 }

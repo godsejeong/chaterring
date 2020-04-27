@@ -8,8 +8,12 @@ class MailDataRepository () : MailSource{
 
     private val mailDataSource = MailDataSource()
 
-    override fun getMails(realm: Realm, loadMailCallback: MailSource.LoadMailCallback) {
-        mailDataSource.getMails(realm,object : MailSource.LoadMailCallback{
+    override fun getMails(
+        realm: Realm,
+        member: String,
+        loadMailCallback: MailSource.LoadMailCallback
+    ) {
+        mailDataSource.getMails(realm,member,object : MailSource.LoadMailCallback{
             override fun onLoadMails(item: ArrayList<ItemDataInterface>) {
                 loadMailCallback.onLoadMails(item)
             }

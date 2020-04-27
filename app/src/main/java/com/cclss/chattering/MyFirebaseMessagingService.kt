@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import com.cclss.chattering.data.MailData
 import com.cclss.chattering.util.Utils.memberSearch
 import com.cclss.chattering.view.MailDetailActivity
+import com.cclss.chattering.view.main.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import io.realm.Realm
@@ -84,6 +85,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     ) {
         val allTime = time!!.substring(0,time.lastIndexOf("/"))
 
+        val backIntent = Intent(this, MainActivity::class.java)
+        backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
         val intent = Intent(this, MailDetailActivity::class.java)
         intent.putExtra("title", title)
         intent.putExtra("content", messageBody)
@@ -94,7 +98,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent.putExtra("id",id)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val id: Int = createID()
-        val pendingIntent = PendingIntent.getActivity(this,id, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivities(this,id,arrayOf(backIntent, intent), PendingIntent.FLAG_ONE_SHOT)
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 

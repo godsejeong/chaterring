@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     val memberItem by lazy{
         ArrayList<ItemDataInterface>().apply {
+            add(ItemMember("IZONE","http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-iz-one.jpg", true))
             add(ItemMember("장원영","http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-jang-wonyoung.jpg", true))
             add(ItemMember("사쿠라", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-miyawaki-sakura.jpg", true))
             add(ItemMember("조유리", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-jo-yuri.jpg", true))
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadMail(realm)
+        presenter.onResume()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,15 +102,16 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             mailRecyclerView = mailRy
             listAdapter = ItemListAdapter()
             mailData = MailDataRepository()
+            realm = this@MainActivity.realm
         }
 
         //loadMember,Mail
         presenter.loadMember(memberItem)
-        presenter.loadMail(realm)
+        presenter.loadMail("IZONE")
 
         //deleteMail
         mainFab.setOnLongClickListener {
-            presenter.deleteMail(realm)
+            presenter.deleteMail()
             toastMessage("deleteItem")
             return@setOnLongClickListener true
         }
@@ -150,11 +152,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             this.unregisterReceiver(mReceiver)
             mReceiver = null
         }
-    }
-
-    override fun onDestroy() {
-        unregisterReceiver()
-        super.onDestroy()
     }
 
     override fun toastMessage(text : String) {
