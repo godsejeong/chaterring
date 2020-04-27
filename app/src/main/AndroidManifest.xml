@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".view.gallery_detail.GalleryDetailActivity"></activity>
         <activity android:name=".view.gallery.GalleryActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.MailDetailActivity">
             <intent-filter>
                 <action android:name=".OPEN_ACTIVITY" />

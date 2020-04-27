@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cclss.chattering.LoginActivity
+import com.cclss.chattering.view.LoginActivity
 import com.cclss.chattering.R
 
 import com.cclss.chattering.adapter.ItemListAdapter
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         //LoginTest
         mainFab.setOnClickListener {
-            startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 

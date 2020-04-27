@@ -8,7 +8,7 @@
     android:gravity="center"
     android:paddingRight="20dp"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".view.LoginActivity">
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btnFb"
