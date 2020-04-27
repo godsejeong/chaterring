@@ -21,4 +21,14 @@ object BaseViewHolder {
         var time = view.findViewById(R.id.itemMailTime) as TextView
         var checkImg = view.findViewById(R.id.itemMailCheckImg) as ImageView
     }
+
+    class GalleryViewHolder(view : View) : RecyclerView.ViewHolder(view){
+        var image = view.findViewById(R.id.itemGalleryImg) as ImageView
+        var title = view.findViewById(R.id.itemGalleryTv) as TextView
+        var index = view.findViewById(R.id.itemGalleryIndexTv) as TextView
+    }
+
+    class GalleryDetailViewHolder(view : View) : RecyclerView.ViewHolder(view){
+        var image = view.findViewById(R.id.itemGalleryDetailImg) as ImageView
+    }
 }

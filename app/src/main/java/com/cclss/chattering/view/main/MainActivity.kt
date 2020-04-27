@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.content.res.TypedArray
 import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,6 +18,7 @@ import com.cclss.chattering.adapter.ItemListAdapter
 import com.cclss.chattering.data.*
 import com.cclss.chattering.data.source.mail.MailDataRepository
 import com.cclss.chattering.util.Utils.memberSearch
+import com.cclss.chattering.view.gallery.GalleryActivity
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.messaging.FirebaseMessaging
@@ -58,26 +58,31 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //facesdk
+        FacebookSdk.sdkInitialize(applicationContext)
+        AppEventsLogger.activateApp(this)
 
-        FacebookSdk.sdkInitialize(applicationContext);
-        AppEventsLogger.activateApp(this);
-
+        //realm
         Realm.init(this)
         realm = Realm.getDefaultInstance()
+
+        //fireBaseTopic
         FirebaseMessaging.getInstance().subscribeToTopic("all")
         fcmReceiver()
 
+        //memberRecyclerView Setting
         var layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         memberRy.layoutManager = layoutManager
 
+        //mailRecyclerView Setting
         var layoutManager_ = LinearLayoutManager(this)
         layoutManager_.reverseLayout = true
         layoutManager_.stackFromEnd = true
         mailRy.layoutManager = layoutManager_
 
+        //MailRecyclerView BttomLine
         val ATTRS: IntArray = intArrayOf(android.R.attr.listDivider)
-
         val a: TypedArray = this.obtainStyledAttributes(ATTRS)
         val divider = a.getDrawable(0)
         val inset = resources.getDimensionPixelSize(R.dimen.recyclerview_padding)
@@ -89,6 +94,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         itemDecoration.setDrawable(insetDivider)
         mailRy.addItemDecoration(itemDecoration)
 
+        //presenterSetting
         presenter = MainPresenter().apply {
             view = this@MainActivity
             memberRecyclerView = memberRy
@@ -97,19 +103,25 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             mailData = MailDataRepository()
         }
 
+        //loadMember,Mail
         presenter.loadMember(memberItem)
         presenter.loadMail(realm)
 
+        //deleteMail
         mainFab.setOnLongClickListener {
             presenter.deleteMail(realm)
             toastMessage("deleteItem")
             return@setOnLongClickListener true
         }
+        //calendar
+        maimCalendarIv.setOnClickListener {
+            startActivity(Intent(this,GalleryActivity::class.java))
+        }
 
+        //LoginTest
         mainFab.setOnClickListener {
             startActivity(Intent(this,LoginActivity::class.java))
         }
-
     }
 
     fun fcmReceiver() {

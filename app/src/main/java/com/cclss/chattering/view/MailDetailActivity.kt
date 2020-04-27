@@ -50,5 +50,7 @@ class MailDetailActivity : AppCompatActivity() {
         mailProfileName.text = name
         mailTitleTv.text = title
         mailContentTv.text = content
+
+        mailBackBtn.setOnClickListener { finish() }
     }
 }

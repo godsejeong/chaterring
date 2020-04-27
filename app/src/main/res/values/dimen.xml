@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="recyclerview_padding">24dp</dimen>
+    <dimen name="gallery_padding_width">6dp</dimen>
+    <dimen name="gallery_padding_height">5dp</dimen>
+    <dimen name="gallery_detail_padding_width">1dp</dimen>
+    <dimen name="gallery_detail_padding_height">4dp</dimen>
 </resources>

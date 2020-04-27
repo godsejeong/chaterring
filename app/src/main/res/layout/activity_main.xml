@@ -42,6 +42,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/maimCalendarIv"
                     android:src="@drawable/ic_nav_shop"
                     android:gravity="center"
                     android:layout_marginRight="24dp"

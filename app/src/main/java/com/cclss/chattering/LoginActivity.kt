@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
         callbackManager = CallbackManager.Factory.create()
 
         val provider = OAuthProvider.newBuilder("twitter.com")
-        provider.addCustomParameter("lang", "fr")
+        provider.addCustomParameter("lang","fr")
 
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))

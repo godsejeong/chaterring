@@ -1,7 +1,6 @@
 package com.cclss.chattering.adapter
 
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +8,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.cclss.chattering.R
-import com.cclss.chattering.data.BaseViewHolder
-import com.cclss.chattering.data.ItemDataInterface
+import com.cclss.chattering.data.*
+import com.cclss.chattering.data.ItemDataState.GALLERY
+import com.cclss.chattering.data.ItemDataState.GALLERY_DETAIL
 import com.cclss.chattering.data.ItemDataState.MAIL
 import com.cclss.chattering.data.ItemDataState.MEMBER
-import com.cclss.chattering.data.ItemMail
-import com.cclss.chattering.data.ItemMember
 import org.joda.time.DateTime
 import java.util.*
+
 
 class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(itemCallback) {
 
@@ -37,14 +37,26 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
 
             MEMBER -> {
                 var layout = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.member_item, parent, false)
+                    .inflate(R.layout.item_member, parent, false)
                 BaseViewHolder.MemberViewHolder(layout)
             }
 
             MAIL -> {
                 var layout = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.mail_message_item, parent, false)
+                    .inflate(R.layout.item_mail_message, parent, false)
                 BaseViewHolder.MailViewHolder(layout)
+            }
+
+            GALLERY -> {
+                var layout = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_gallery,parent,false)
+                BaseViewHolder.GalleryViewHolder(layout)
+            }
+
+            GALLERY_DETAIL ->{
+                var layout = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_gallery_detail,parent,false)
+                BaseViewHolder.GalleryDetailViewHolder(layout)
             }
 
             else -> null!!
@@ -113,6 +125,40 @@ class ItemListAdapter : ListAdapter<ItemDataInterface, RecyclerView.ViewHolder>(
                         }
                     }
                 }
+            }
+
+            GALLERY->{
+                val item = getItem(position) as ItemGallery
+                var holder = (holder as BaseViewHolder.GalleryViewHolder)
+
+                Glide.with(context)
+                    .asBitmap()
+                    .load(item.image)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.image)
+
+
+                holder.title.text = item.title
+                holder.index.text = "${item.index}장"
+
+                if (itemClick != null) {
+                    holder.itemView.setOnClickListener {
+                        if (position != RecyclerView.NO_POSITION) {
+                            itemClick!!.onClick(it, position)
+                        }
+                    }
+                }
+            }
+
+            GALLERY_DETAIL->{
+                val item = getItem(position) as ItemGalleryDetail
+                var holder = (holder as BaseViewHolder.GalleryDetailViewHolder)
+
+                Glide.with(context)
+                    .asBitmap()
+                    .load(item.img)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.image)
             }
         }
     }
