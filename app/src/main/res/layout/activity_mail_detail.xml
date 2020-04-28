@@ -15,15 +15,17 @@
         android:gravity="center"
         android:layout_height="?attr/actionBarSize">
 
-        <ImageView
-            android:layout_marginLeft="20dp"
+        <ImageButton
             android:id="@+id/mailBackBtn"
+            android:background="@color/transparent"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
             android:layout_gravity="center|left"
             android:layout_width="wrap_content"
-            android:background="@drawable/ic_back_24"
+            android:src="@drawable/ic_back_24"
             android:layout_height="wrap_content">
 
-        </ImageView>
+        </ImageButton>
 
     </LinearLayout>
 

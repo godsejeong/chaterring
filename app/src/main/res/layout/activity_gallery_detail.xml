@@ -13,17 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/galleryDetailBackBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:background="@color/transparent"
             android:src="@drawable/ic_back_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        </ImageView>
+        </ImageButton>
 
         <TextView
             android:id="@+id/galleryDetailTv"
