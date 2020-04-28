@@ -50,7 +50,8 @@ class GalleryDataSource : GallerySource {
                 realm.where(MailData::class.java).equalTo("memberType",member).findAll()
 
             memberData.forEach {
-                galleryDetailItem.value!!.add(ItemGalleryDetail(it.img))
+                if(it.img != "")
+                    galleryDetailItem.value!!.add(ItemGalleryDetail(it.img))
             }
         }
 
