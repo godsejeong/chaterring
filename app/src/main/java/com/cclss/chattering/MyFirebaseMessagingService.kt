@@ -36,6 +36,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.e("Firebase", "FirebaseInstanceIDService : $s")
     }
 
+    init {
+        Realm.init(this)
+    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         var title = remoteMessage.data.get("title")
