@@ -11,13 +11,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cclss.chattering.view.LoginActivity
 import com.cclss.chattering.R
-
 import com.cclss.chattering.adapter.ItemListAdapter
-import com.cclss.chattering.data.*
+import com.cclss.chattering.data.ItemDataInterface
+import com.cclss.chattering.data.ItemMail
+import com.cclss.chattering.data.ItemMember
 import com.cclss.chattering.data.source.mail.MailDataRepository
 import com.cclss.chattering.util.Utils.memberSearch
+import com.cclss.chattering.view.LoginActivity
 import com.cclss.chattering.view.gallery.GalleryActivity
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
@@ -37,9 +38,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             add(ItemMember("장원영","http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-jang-wonyoung.jpg", true))
             add(ItemMember("사쿠라", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-miyawaki-sakura.jpg", true))
             add(ItemMember("조유리", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-jo-yuri.jpg", true))
+            add(ItemMember("나코","http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-yabuki-nako.jpg",true))
             add(ItemMember("최예나", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-choi-yena.jpg"))
             add(ItemMember("안유진", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-an-yujin.jpg"))
-            add(ItemMember("나코","http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-yabuki-nako.jpg"))
             add(ItemMember("권은비", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-kwon-eunbi.jpg"))
             add(ItemMember("강혜원", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-kang-hyewon.jpg"))
             add(ItemMember("히토미", "http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-honda-hitomi.jpg"))
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         //facesdk
         FacebookSdk.sdkInitialize(applicationContext)
         AppEventsLogger.activateApp(this)
@@ -145,6 +147,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             }
         }
         this.registerReceiver(this.mReceiver, theFilter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver()
     }
 
     private fun unregisterReceiver() {

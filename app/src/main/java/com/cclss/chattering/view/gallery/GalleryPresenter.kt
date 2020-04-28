@@ -25,8 +25,6 @@ class GalleryPresenter : GalleryContract.Presenter{
         })
     }
 
-
-
     fun updateRecylcerView(ry : RecyclerView,items : ArrayList<ItemDataInterface>){
         ItemListAdapter().apply {
             ry.adapter = this
@@ -42,6 +40,4 @@ class GalleryPresenter : GalleryContract.Presenter{
             })
         }
     }
-
-
 }

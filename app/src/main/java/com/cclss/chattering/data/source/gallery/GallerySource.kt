@@ -13,7 +13,6 @@ interface GallerySource{
         fun onLoadImageDetails(items : ArrayList<ItemDataInterface>)
     }
 
-
     fun loadGallery(realm: Realm,loadImageCallback: LoadImageCallback)
     fun loadGalleryDetail(realm: Realm,member : String,loadImageDetailCallback: LoadImageDetailCallback)
 }
