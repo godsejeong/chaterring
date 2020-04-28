@@ -44,11 +44,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         var memberType = remoteMessage.data.get("memberType")
         var time = getRealTime()
         var id = createID()
-        sendNotification(title, body, image, memberType,time,id)
-        saveRealm(title, body, image, memberType,time,id)
+        sendNotification(title, body, image, memberType, time, id)
+        saveRealm(title, body, image, memberType, time, id)
     }
 
-    private fun saveRealm(title: String?, content: String?, img: String?, memberType: String?,time : String?,id : Int?) {
+    private fun saveRealm(
+        title: String?,
+        content: String?,
+        img: String?,
+        memberType: String?,
+        time: String?,
+        id: Int?
+    ) {
         var realm = Realm.getDefaultInstance()
 
         realm.executeTransactionAsync { realm ->
@@ -70,8 +77,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent.putExtra("body", content)
         intent.putExtra("image", img)
         intent.putExtra("memberType", memberType)
-        intent.putExtra("time",time)
-        intent.putExtra("id",id)
+        intent.putExtra("time", time)
+        intent.putExtra("id", id)
         sendBroadcast(intent)
     }
 
@@ -80,10 +87,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         messageBody: String?,
         image: String?,
         memberType: String?,
-        time : String?,
-        id : Int?
+        time: String?,
+        id: Int?
     ) {
-        val allTime = time!!.substring(0,time.lastIndexOf("/"))
+        val allTime = time!!.substring(0, time.lastIndexOf("/"))
 
         val backIntent = Intent(this, MainActivity::class.java)
         backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -94,15 +101,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent.putExtra("img", image)
         intent.putExtra("profile", memberSearch(memberType))
         intent.putExtra("name", memberType)
-        intent.putExtra("time",allTime)
-        intent.putExtra("id",id)
+        intent.putExtra("time", allTime)
+        intent.putExtra("id", id)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val id: Int = createID()
-        val pendingIntent = PendingIntent.getActivities(this,id,arrayOf(backIntent, intent), PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivities(
+            this,
+            id,
+            arrayOf(backIntent, intent),
+            PendingIntent.FLAG_ONE_SHOT
+        )
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-        var bitmapImage = image?.run { getBitmapFromURL(image!!) }
+        var bitmapImage = image?.run { getBitmapFromURL(image) }
         val bigPictureStyle =
             NotificationCompat.BigPictureStyle()
         bigPictureStyle.bigPicture(bitmapImage)
@@ -113,8 +125,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 setContentText(messageBody)
                 setAutoCancel(true)
                 image?.run {
-                    setLargeIcon(bitmapImage)
-                    setStyle(bigPictureStyle)
+                    if(image != "") {
+                        setLargeIcon(bitmapImage)
+                        setStyle(bigPictureStyle)
+                    }
                 }
                 setSound(defaultSoundUri)
                 setContentIntent(pendingIntent)
@@ -143,18 +157,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     fun getRealTime(): String {
         val dateTime = DateTime()
-        var allTime = dateTime.toString("yyyy년 MM월 dd일 (E) a HH:mm/MM.dd",Locale.KOREA)
+        var allTime = dateTime.toString("yyyy년 MM월 dd일 (E) a HH:mm/MM.dd", Locale.KOREA)
         return allTime
     }
 
     fun getBitmapFromURL(src: String?): Bitmap? {
         return try {
-            val url = URL(src)
-            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-            connection.doInput = true
-            connection.connect()
-            val input: InputStream = connection.inputStream
-            BitmapFactory.decodeStream(input)
+                val url = URL(src)
+                val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+                connection.doInput = true
+                connection.connect()
+                val input: InputStream = connection.inputStream
+                BitmapFactory.decodeStream(input)
         } catch (e: IOException) {
             e.printStackTrace()
             null

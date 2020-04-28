@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private val BROADCAST_MESSAGE = "com.cclss.chattering.fcm"
     private var mReceiver: BroadcastReceiver? = null
 
-    val memberItem by lazy{
+    val memberItem by lazy {
         ArrayList<ItemDataInterface>().apply {
             add(ItemMember("IZONE","http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-iz-one.jpg", true))
             add(ItemMember("장원영","http://cdn.iz-one.co.kr/images/bloom-iz/v/profile-jang-wonyoung.jpg", true))
